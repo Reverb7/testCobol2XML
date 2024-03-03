@@ -61,6 +61,10 @@ public class Cobol2XML {
 		 * A rather crude approach is to hard code the filename for the cobol source file, like this
 		 * InputStream is = new FileInputStream("C:\\Users\\sgs442\\eclipse-workspace\\CobolParser1\\base.cbl")
 		 */
+    	
+    	//Debugging code
+    	System.out.println("arg[0]" + args[0]);
+    	//System.out.println("arg[1]" + args[1]);
 
         try {
             MyLogger.setup();
