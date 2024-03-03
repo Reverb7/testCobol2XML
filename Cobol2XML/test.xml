@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<cobol>
+    <division>IDENTIFICATION</division>
+    <division>ENVIRONMENT</division>
+    <section>INPUT-OUTPUT</section>
+    <division>DATA</division>
+    <section>FILE</section>
+    <division>PROCEDURE</division>
+</cobol>
