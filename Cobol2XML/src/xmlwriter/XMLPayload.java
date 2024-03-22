@@ -37,6 +37,8 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import java.util.logging.Logger;
+import org.w3c.dom.Attr;
+
 
 
 
@@ -71,15 +73,72 @@ public class XMLPayload {
 		/*
 		 *  add sectionName element
 		 */		
-		String sectionName = c.getSectionName();
-		if (sectionName != null) {
-			this.addSectionElement( sectionName );
-			
-			// Add contents of procedure division
-		} else {
-			// Section Name null
-		}
-		
+		String constantName = c.getConstantName();
+        if (constantName != null) {
+            this.addConstantValueElement( constantName, c.getConstantValue(), c.getLineNumber() );
+            //System.out.println("Got Section");
+            // Add contents of procedure division
+        } 
+        else 
+        {
+            //System.out.println("Comment Line null");
+        }
+        
+        /*
+		 *  add commentLine element
+		 */		
+		String commentLine = c.getCommentLine();
+        if (commentLine != null) 
+        {
+            this.addCommentLineElement(commentLine);
+            // Adds contents of the comment line
+        } 
+        else 
+        {
+            //System.out.println("Comment Line null");
+        }
+        
+        /*
+		 *  add stop run element
+		 */		
+        if (c.getIsStopRun()) 
+        {
+            this.addStopRunElement();
+            // Adds stop run details
+        } 
+        else 
+        {
+            //System.out.println("Comment Line null");
+        }
+        
+        /*
+		 *  adds Move with random number element
+		 */		
+        if (c.getIsMoveValueInt() && c.getMoveToVariable() != null) 
+        {
+            this.addMoveWithRandomInt(c.getRandomRange(), c.getMoveToVariable(), c.getmoveToVariableRange());
+            // Adds move with random number details
+        } 
+        else if (c.getMoveToVariable() != null)
+        {
+            //System.out.println("Comment Line null");
+        	this.addMoveWithRandomChar(c.getRandomRange(), c.getMoveToVariable(), c.getmoveToVariableRange());
+        	// Adds move with random number details
+        }
+        
+        /*
+  		 *  adds input output file element
+  		 */		
+          if (c.getInputFile() != null) 
+          {
+              this.addInputOutputFileElement(c.getInputFile(), c.getOutputFile());
+              // Adds stop run details
+          } 
+          else 
+          {
+              //System.out.println("Comment Line null");
+          }
+        
 		/*
 		 *  add divisionName element
 		 */		
@@ -142,7 +201,8 @@ public class XMLPayload {
 		}
 	}
  	
-	void addCommentLineElement(String stringElement) {
+	void addCommentLineElement(String stringElement) 
+	{
 		//  Comment Line element
 		
 		if(stringElement != null) {
@@ -237,5 +297,179 @@ public class XMLPayload {
 	         e.printStackTrace();
 	     }
 	}
+	
+	void addConstantValueElement(String constantName,
+        double constantValue, int lineNumber) {
+        // Program ID element
+        if(constantName != null) {
+            
+            Element cobolname = doc.createElement("Constant");
+            // insert name of constant into XML file
+            Element constID = doc.createElement("Constant");
+            Attr attrType2 = doc.createAttribute("Name" );
+            
+            attrType2.setValue( constantName );
+            constID.setAttributeNode(attrType2);
+            cobolname.appendChild(constID);
+            
+            
+            // insert line number of constant into XML file
+            Element lineID = doc.createElement(constantName);
+            Attr attrType = doc.createAttribute("Line_Number" );
+            attrType.setValue( Integer.toString(lineNumber) );
+            lineID.setAttributeNode(attrType);
+            cobolname.appendChild(lineID);
+            
+            
+            // insert value of constant into XML file
+            Element constantID = doc.createElement(constantName);
+            Attr attrType1 = doc.createAttribute("Value" );
+            attrType1.setValue( Double.toString(constantValue) );
+            constantID.setAttributeNode(attrType1);
+            cobolname.appendChild(constantID);
+            rootElement.appendChild(cobolname);
+            }
+        }
+	
+	void addStopRunElement() 
+	{
+		//  Stop Run in an action element
+		Element cobolname = doc.createElement("command");
+		
+		// Adds action element with STOP RUN
+		Element actionEle = doc.createElement("action");
+		actionEle.appendChild(doc.createTextNode("STOP RUN"));
+		
+		// Adds description element with description of Stop Run in Cobol
+		Element descEle = doc.createElement("description");
+		descEle.appendChild(doc.createTextNode("Terminates a cobol program"));
+		
+		// Adds action and description element to element
+		cobolname.appendChild(actionEle);
+		cobolname.appendChild(descEle);
+        
+        // Appends element to root element
+		
+    	rootElement.appendChild(cobolname);
+	}
+	
+	void addMoveWithRandomInt(String randomRange, String variable, String variableRange) 
+	{
+		//  Stop Run in an action element
+		Element cobolname = doc.createElement("command");
+		
+		// Adds action element with move with random
+		Element actionEle = doc.createElement("action");
+		actionEle.appendChild(doc.createTextNode("MOVE"));
+		
+		// Adds description element with description of move with random in Cobol
+		Element descEle = doc.createElement("description");
+		descEle.appendChild(doc.createTextNode("Moves a value to a variable"));
+		
+		// Adds variable element with name, type and memory allocation
+		Element varEle = doc.createElement("variable");
+		Element valueEle = doc.createElement("value");
+		
+		Attr attrType1 = doc.createAttribute("name");
+        attrType1.setValue(variable);
+        Attr attrType2 = doc.createAttribute("type");
+        attrType2.setValue("int");
+        Attr attrType3 = doc.createAttribute("memoryAllocation");
+        attrType3.setValue(variableRange);
+        Attr attrType4 = doc.createAttribute("range");
+        attrType4.setValue(randomRange);
+        valueEle.setAttributeNode(attrType4);
+        varEle.setAttributeNode(attrType3);
+        valueEle.setAttributeNode(attrType2);
+        varEle.setAttributeNode(attrType1);
+		
+		// Adds action, description and variable elements to element
+		cobolname.appendChild(actionEle);
+		cobolname.appendChild(descEle);
+		cobolname.appendChild(valueEle);
+		cobolname.appendChild(varEle);
+        
+        // Appends element to root element
+		
+    	rootElement.appendChild(cobolname);
+	}
+	
+	void addMoveWithRandomChar(String randomRange, String variable, String variableRange) 
+	{
+		//  Stop Run in an action element
+		Element cobolname = doc.createElement("command");
+		
+		// Adds action element with move with random
+		Element actionEle = doc.createElement("action");
+		actionEle.appendChild(doc.createTextNode("MOVE"));
+		
+		// Adds description element with description of move with random in Cobol
+		Element descEle = doc.createElement("description");
+		descEle.appendChild(doc.createTextNode("Moves a value to a variable"));
+		
+		// Adds variable element with name, type and memory allocation
+		Element varEle = doc.createElement("variable");
+		Element valueEle = doc.createElement("value");
+		
+		Attr attrType1 = doc.createAttribute("name");
+        attrType1.setValue(variable);
+        Attr attrType2 = doc.createAttribute("type");
+        attrType2.setValue("char");
+        Attr attrType3 = doc.createAttribute("memoryAllocation");
+        attrType3.setValue(variableRange);
+        Attr attrType4 = doc.createAttribute("range");
+        attrType4.setValue(randomRange);
+        valueEle.setAttributeNode(attrType4);
+        varEle.setAttributeNode(attrType3);
+        valueEle.setAttributeNode(attrType2);
+        varEle.setAttributeNode(attrType1);
+		
+		// Adds action, description and variable elements to element
+		cobolname.appendChild(actionEle);
+		cobolname.appendChild(descEle);
+		cobolname.appendChild(valueEle);
+		cobolname.appendChild(varEle);
+        
+        // Appends element to root element
+		
+    	rootElement.appendChild(cobolname);
+	}
+	
+	
+	void addInputOutputFileElement(String input, String output) 
+	{
+		//  Stop Run in an action element
+		Element cobolname = doc.createElement("command");
+		
+		// Adds action element with open file
+		Element actionEle = doc.createElement("action");
+		actionEle.appendChild(doc.createTextNode("OPEN FILE"));
+		
+		// Adds description element with description of open file in Cobol
+		Element descEle = doc.createElement("description");
+		descEle.appendChild(doc.createTextNode("Opens a file for input and or output"));
+		
+		// Adds input and output elements with filename
+		Element inEle = doc.createElement("input");
+		Attr attrType1 = doc.createAttribute("fileName");
+        attrType1.setValue(input);
+		Element outEle = doc.createElement("output");
+		Attr attrType2 = doc.createAttribute("fileName");
+        attrType2.setValue(output);
+        outEle.setAttributeNode(attrType2);
+        inEle.setAttributeNode(attrType1);
+		
+		// Adds action, description, input and output element to element
+		cobolname.appendChild(actionEle);
+		cobolname.appendChild(descEle);
+		cobolname.appendChild(inEle);
+		cobolname.appendChild(outEle);
+        
+        // Appends element to root element
+		
+    	rootElement.appendChild(cobolname);
+	}
+	
+	
 
 }

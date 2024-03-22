@@ -25,6 +25,7 @@ import parse.Empty;
 import parse.Parser;
 import parse.Sequence;
 import parse.tokens.CaselessLiteral;
+import parse.tokens.Literal;
 import parse.tokens.Num;
 import parse.tokens.Symbol;
 import parse.tokens.Tokenizer;
@@ -47,6 +48,40 @@ public class CobolParser {
 		Symbol fullstop = new Symbol('.');
 		fullstop.discard();
 		
+		a.add(constantValue() );
+		
+		// Runs for loop to recognise comments line with 1 to 30 words 
+		for(int i = 1; i <= 30; i++)
+		{
+			// TODO Auto-generated method stub
+			Sequence s = new Sequence();
+			s.add(new Symbol("*") );
+			s.add(new Symbol("*") );
+			
+			// Runs for loop to form 1 to 15 words combination
+			for(int k = 1; k <= i; k++)
+			{
+				s.add(new Word());
+			}
+			
+			s.add(new Symbol("*") );
+			s.add(new Symbol("*") );
+			s.setAssembler(new CommentLineAssembler());
+			a.add(s);
+		}
+		
+		// Adds Stop Run
+		a.add(stopRun() );
+		
+		// Adds Move command with randomly generated number
+		a.add(moveWithRandomNum() );
+		
+		// Adds Move command with randomly generated character
+		a.add(moveWithRandomChar() );
+		
+		// Adds Open input and output file
+		a.add(openInputOutputFile() );
+		
 		a.add( ProgramID() );
 		
 		a.add( DivisionName() );
@@ -59,6 +94,104 @@ public class CobolParser {
 		return a;
 	}
 	
+	/*
+	* Return a parser that will recognize the grammar:
+	*
+	* ** [variable number of words] **
+	*
+	*/
+	private Parser stopRun() 
+	{
+		// TODO Auto-generated method stub
+		Sequence s = new Sequence();
+		s.add(new Literal("STOP") );
+		s.add(new Literal("RUN") );
+		s.add(new Symbol('.').discard());
+		s.setAssembler(new StopRun());
+		return s;
+
+	}
+	
+	
+	/*
+	* Return a parser that will recognize the grammar:
+	*
+	* MOVE RANDOM BETWEEN 10 AND 99 TO RANDOM_RECORD(1:2).
+	*
+	*/
+	private Parser moveWithRandomNum() 
+	{
+		// TODO Auto-generated method stub
+		Sequence s = new Sequence();
+		s.add(new Literal("MOVE").discard() );
+		s.add(new Literal("RANDOM").discard() );
+		s.add(new Literal("BETWEEN").discard() );
+		s.add(new Num());
+		s.add(new Literal("AND").discard());
+		s.add(new Num());
+		s.add(new Literal("TO").discard());
+		s.add(new Word() );
+		s.add(new Symbol('(').discard());
+		s.add(new Num());
+		s.add(new Symbol(':').discard());
+		s.add(new Num());
+		s.add(new Symbol(')').discard());
+		s.add(new Symbol('.').discard());
+		s.setAssembler(new MoveWithRandomNum());
+		return s;
+
+	}
+	
+	/*
+	* Return a parser that will recognize the grammar:
+	*
+	*  MOVE RANDOM BETWEEN 'A' AND 'Z' TO RANDOM_RECORD(3).
+	*
+	*/
+	private Parser moveWithRandomChar() 
+	{
+		// TODO Auto-generated method stub
+		Sequence s = new Sequence();
+		s.add(new Literal("MOVE").discard() );
+		s.add(new Literal("RANDOM").discard() );
+		s.add(new Literal("BETWEEN").discard() );
+		s.add(new Word());
+		s.add(new Literal("AND").discard());
+		s.add(new Word());
+		s.add(new Literal("TO").discard());
+		s.add(new Word() );
+		s.add(new Symbol('(').discard());
+		s.add(new Num());
+		s.add(new Symbol(')').discard());
+		s.add(new Symbol('.').discard());
+		s.setAssembler(new MoveWithRandomChar());
+		return s;
+
+	}
+	
+	
+	/*
+	* Return a parser that will recognize the grammar:
+	*
+	*  OPEN INPUT RANDOM_FILE OUTPUT RANDOM1_FILE.
+	*
+	*/
+	private Parser openInputOutputFile() 
+	{
+		// TODO Auto-generated method stub
+		Sequence s = new Sequence();
+		s.add(new Literal("OPEN").discard() );
+		s.add(new Literal("INPUT").discard() );
+		s.add(new Word());
+		s.add(new Literal("OUTPUT").discard() );
+		s.add(new Word());
+		s.add(new Symbol('.').discard());
+		s.setAssembler(new OpenInputOutputFile());
+		return s;
+
+	}
+	
+
 	/*
 	 * Return a parser that will recognize the grammar:
 	 * 
@@ -148,5 +281,23 @@ public class CobolParser {
 		t.wordState().setWordChars(' ', ' ', false);
 		return t;
 	}
+	
+    
+    /*
+    * Return a parser that will recognize the grammar:
+    *
+    * <line number> <contstant name> "value" <constant value>.
+    *
+    */
+    protected Parser constantValue() {
+    //System.out.println("constantValue()");
+    Sequence s = new Sequence();
+    s.add(new Num() );
+    s.add(new Word() );
+    s.add(new CaselessLiteral("value") );
+    s.add(new Num() );
+    s.setAssembler(new ConstantValueAssembler());
+    return s;
+    }
 
 }

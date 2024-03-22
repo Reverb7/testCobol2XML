@@ -64,7 +64,7 @@ public class Cobol2XML {
     	
     	//Debugging code
     	System.out.println("arg[0]" + args[0]);
-    	//System.out.println("arg[1]" + args[1]);
+    	System.out.println("arg[1]" + args[1]);
 
         try {
             MyLogger.setup();
@@ -90,6 +90,8 @@ public class Cobol2XML {
 				while (true) {
 					// throws IOException
 					String s = r.readLine();
+					System.out.println("Debug " + s);
+					System.out.println("");
 					if (s == null) {
 						break;
 					}
@@ -99,6 +101,8 @@ public class Cobol2XML {
 					Cobol c = new Cobol();
 					c = (Cobol) out.getTarget();
 					
+					System.out.println("Debug1 " + c);
+					System.out.println("");
 					if(c != null)
 						xmlp.addElements(c); 
 					}// while

@@ -21,7 +21,8 @@
  
 package parse.tokens;
 
-public class Token {
+public class Token 
+{
 	protected TokenType ttype;
 	protected String sval;
 	protected double nval;

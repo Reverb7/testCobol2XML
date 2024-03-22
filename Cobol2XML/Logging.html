@@ -8,7 +8,7 @@ h1 {font:normal 11pt Tahoma;}
 </style>
 </head>
 <body>
-<h1>Sun Mar 03 21:41:02 GMT 2024</h1>
+<h1>Fri Mar 22 12:40:41 GMT 2024</h1>
 <table border="0" cellpadding="5" cellspacing="3">
 <tr align="left">
 	<th style="width:10%">Loglevel</th>
@@ -17,20 +17,50 @@ h1 {font:normal 11pt Tahoma;}
 </tr>
 <tr>
 	<td>INFO</td>
-	<td>Mar 03,2024 21:41</td>
+	<td>Mar 22,2024 12:40</td>
 	<td>Cobol2XML V0.1.0</td>
 </tr>
 <tr>
 	<td>INFO</td>
-	<td>Mar 03,2024 21:41</td>
+	<td>Mar 22,2024 12:40</td>
 	<td><?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <cobol>
     <division>IDENTIFICATION</division>
+    <Program-ID>base_jb</Program-ID>
     <division>ENVIRONMENT</division>
-    <section>INPUT-OUTPUT</section>
+    <Constant>
+        <Constant Name="base_2"/>
+        <base_2 Line_Number="88"/>
+        <base_2 Value="2.0"/>
+    </Constant>
     <division>DATA</division>
-    <section>FILE</section>
     <division>PROCEDURE</division>
+    <command>
+        <action>OPEN FILE</action>
+        <description>Opens a file for input and or output</description>
+        <input fileName="RANDOM_FILE"/>
+        <output fileName="RANDOMONE_FILE"/>
+    </command>
+    <comment>Randomly generate some data</comment>
+    <comment>Randomly generate some data test test test test test</comment>
+    <comment>Randomly</comment>
+    <comment>RandomlyYo Me</comment>
+    <command>
+        <action>MOVE</action>
+        <description>Moves a value to a variable</description>
+        <value range="BETWEEN 99.0 TO 10.0" type="int"/>
+        <variable memoryAllocation="2.0 AND 1.0" name="RANDOM_RECORD"/>
+    </command>
+    <command>
+        <action>MOVE</action>
+        <description>Moves a value to a variable</description>
+        <value range="BETWEEN Z TO A" type="char"/>
+        <variable memoryAllocation="3.0" name="RANDOM_RECORD"/>
+    </command>
+    <command>
+        <action>STOP RUN</action>
+        <description>Terminates a cobol program</description>
+    </command>
 </cobol>
 </td>
 </tr>

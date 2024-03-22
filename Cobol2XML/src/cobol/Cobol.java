@@ -31,6 +31,29 @@ public class Cobol implements PubliclyCloneable {
 	protected int dayDateWritten = 0;
 	protected String monthDateWritten;
 	protected int yearDateWritten = 0;
+	
+	protected String constantName;
+	protected double constantValue;
+	protected int lineNumber = 0;
+	protected boolean isStopRun;
+	
+	// Boolean to hold if move value is int
+		protected boolean moveValueIsInt = false;
+		
+	// String to hold the range for Move with random numbers or characters
+	protected String randomRange = "";
+	
+	// String to hold the variable to move the value to for Move command
+	protected String moveToVariable = null;
+	
+	// String to hold the moveToVariable locations to move the value to
+	protected String moveToVariableRange = "";
+	
+	// String to hold input file
+	protected String inputFile = null;
+	
+	// String to hold output file
+	protected String outputFile = null;
 
 	
 	/**
@@ -247,4 +270,174 @@ public class Cobol implements PubliclyCloneable {
 		
 		return buf.toString();
 	}
+	public String getConstantName() 
+	{
+		return constantName;
+	}
+	
+	public void setConstantName(String constantName) 
+	{
+		this.constantName = constantName;
+	}
+	
+	public double getConstantValue() 
+	{
+		return constantValue;
+	}
+	
+	public void setConstantValue(double constantValue) 
+	{
+		this.constantValue = constantValue;
+	}
+	
+	public int getLineNumber() 
+	{
+		return lineNumber;
+	}
+	
+	public void setLineNumber(int lineNumber) {
+		this.lineNumber = lineNumber;
+	}
+	
+	
+	/**
+	 * Return the is Stop Run.
+	 *
+	 * @returns stopRun
+	 */
+	public boolean getIsStopRun() 
+	{
+		return isStopRun;
+	}
+	
+	/**
+	 * Set the section name 
+	 *
+	 * @param  String sectionName
+	 */
+	public void setIsStopRun(boolean isStopRun) 
+	{
+		this.isStopRun = isStopRun;
+	}
+	
+	/**
+	 * Return the random range.
+	 *
+	 * @returns randomRange
+	 */
+	public String getRandomRange() 
+	{
+		return randomRange;
+	}
+	
+	/**
+	 * Set the random range
+	 *
+	 * @param  String randomRange
+	 */
+	public void setRandomRange(String randomRange) 
+	{
+		this.randomRange = randomRange;
+	}
+	
+	/**
+	 * Return the moveToVariable.
+	 *
+	 * @returns moveToVariable
+	 */
+	public String getMoveToVariable() 
+	{
+		return moveToVariable;
+	}
+	
+	/**
+	 * Set the moveToVariable
+	 *
+	 * @param  String moveToVariable
+	 */
+	public void setMoveToVariable(String moveToVariable) 
+	{
+		this.moveToVariable = moveToVariable;
+	}
+	
+	/**
+	 * Return the moveToVariableRange.
+	 *
+	 * @returns moveToVariableRange
+	 */
+	public String getmoveToVariableRange() 
+	{
+		return moveToVariableRange;
+	}
+	
+	/**
+	 * Set the moveToVariableRange 
+	 *
+	 * @param  String moveToVariableRange
+	 */
+	public void setmoveToVariableRange(String moveToVariableRange) 
+	{
+		this.moveToVariableRange = moveToVariableRange;
+	}
+	
+	/**
+	 * Return the moveValueIsInt.
+	 *
+	 * @returns moveValueIsInt
+	 */
+	public boolean getIsMoveValueInt() 
+	{
+		return moveValueIsInt;
+	}
+	
+	/**
+	 * Set the moveValueIsInt 
+	 *
+	 * @param  boolean moveValueIsInt
+	 */
+	public void setIsMoveValueInt(boolean moveValueIsInt) 
+	{
+		this.moveValueIsInt = moveValueIsInt;
+	}
+	
+	/**
+	 * Return the input file.
+	 *
+	 * @returns inputFile
+	 */
+	public String getInputFile() 
+	{
+		return inputFile;
+	}
+	
+	/**
+	 * Set the input file 
+	 *
+	 * @param String inputFile
+	 */
+	public void setInputFile(String inputFile) 
+	{
+		this.inputFile = inputFile;
+	}
+	
+	/**
+	 * Return the output file.
+	 *
+	 * @returns outputFile
+	 */
+	public String getOutputFile() 
+	{
+		return outputFile;
+	}
+	
+	/**
+	 * Set the output file 
+	 *
+	 * @param String outputFile
+	 */
+	public void setOutputFile(String outputFile) 
+	{
+		this.outputFile = outputFile;
+	}
+	
 }
