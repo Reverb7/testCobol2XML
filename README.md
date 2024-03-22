@@ -1,6 +1,18 @@
-# Cobol2XML
-Cobol2XML parser V0.1.0
+Project Extraction and Upload Instructions
+These instructions guide you through uploading a project onto Eclipse.
 
-Execute as follows
+Extracting the Project
+Download: Download the project ZIP file, and extract its contents.
 
-cobol2xml "C:\\Users\\<your user name>\\git\\cobol2xml\\base.cbl" "C:\\Users\\<your user name>\\git\\cobol2xml\\cobol2xml.xml"
+Import into Eclipse:
+Open Eclipse.
+Go to File > Import.
+Select General > Existing Projects into Workspace.
+Choose the project folder and click Finish.
+
+
+
+Additional Notes
+Ensure proper permissions for uploading.
+Double-check file paths and dependencies.
+Refer to Eclipse documentation for help.
